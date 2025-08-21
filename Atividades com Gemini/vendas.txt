@@ -1,0 +1,7 @@
+Caneta,10,1.50
+Caderno,5,15.00
+Caneta,5,1.50
+Lapis,20,0.80
+Caderno,2,15.00
+Mochila,1,120.00
+Lapis,10,0.80
