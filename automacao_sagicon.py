@@ -1,5 +1,4 @@
 import customtkinter as ctk
-# Resolvido: Mantive a importação do TimeoutError, que é uma adição útil.
 from playwright.sync_api import sync_playwright, TimeoutError
 import shutil
 import os
