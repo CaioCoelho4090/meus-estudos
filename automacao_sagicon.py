@@ -9,6 +9,7 @@ import time
 # app.title("Gerador de protocolos automático")
 # app.geometry('800x600')
 
+# Inicia o navegador chrome
 with sync_playwright() as p:
     navegador = p.chromium.launch(headless=False)
     page = navegador.new_page()
