@@ -8,7 +8,7 @@ def obter_dados_protocolo():
     # Inicia a interface gráfica
     ctk.set_appearance_mode('dark')
     
-    # Onde será saldo os dados
+    # Onde será salvo os dados
     dados_inseridos = {}
     
     app = ctk.CTk()
@@ -19,11 +19,25 @@ def obter_dados_protocolo():
         dados_inseridos["ocorrencia"] = entry_ocorrencia.get()
         dados_inseridos["inscricao_firma"] = entry_inscricao_firma.get()
         dados_inseridos["inscricao_profissional"] = entry_inscricao_profissional.get()
+        dados_inseridos["usuario_login"] = entry_usuario_login.get()
+        dados_inseridos["senha_login"] = entry_senha_login.get()
         app.destroy()
+    
+    # Entrada do nome de usuário
+    label_usuario = ctk.CTkLabel(app, text='Insira seu nome de usuário')
+    label_usuario.pack(pady=(0, 5))
+    entry_usuario_login = ctk.CTkEntry(app, placeholder_text="Nome de usuário")
+    entry_usuario_login.pack()
+    
+    # Entrada da senha
+    label_senha = ctk.CTkLabel(app, text="Insira sua senha")
+    label_senha.pack(pady=(10, 5))
+    entry_senha_login = ctk.CTkEntry(app, placeholder_text="Senha")
+    entry_senha_login.pack()
     
     # Entrada do número da ocorrência
     label_ocorrencia = ctk.CTkLabel(app, text="Insira o código da ocorrência")
-    label_ocorrencia.pack(pady=(0, 5))
+    label_ocorrencia.pack(pady=(10, 5))
     entry_ocorrencia = ctk.CTkEntry(app, placeholder_text="Código Ocorrência")
     entry_ocorrencia.pack()
     
@@ -55,8 +69,8 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
         try:
             # Efetua o login
             page.goto("http://sagicon.crf-to.cisantec.com.br/sagicon/login.jsf")
-            page.fill('xpath=//*[@id="formLogin:j_username"]', "CAIO")
-            page.fill('xpath=//*[@id="formLogin:j_password"]', "Gsacap21@")
+            page.locator('xpath=//*[@id="formLogin:j_username"]').fill(dados_protocolo["usuario_login"])
+            page.locator('xpath=//*[@id="formLogin:j_password"]').fill(dados_protocolo["senha_login"])
             page.locator('xpath=//*[@id="formLogin:btnEntrar"]').click()
             
             # Vai para a página de protocolos
@@ -72,7 +86,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
             page.locator('xpath=//*[@id="formCadastrarProtocolo:j_idt128"]').click()
             page.locator('xpath=//*[@id="formPesquisaOcorrencia:j_idt2250"]').select_option(value='Código')
             page.locator('xpath=//*[@id="formPesquisaOcorrencia:value1N"]').fill(dados_protocolo["ocorrencia"])
-            page.locator('xpath=//*[@id="formPesquisaOcorrencia:j_idt2284"]').click()   
+            page.locator('xpath=//*[@id="formPesquisaOcorrencia:j_idt2284"]').click()
             page.locator('xpath=//*[@id="formPesquisaOcorrencia:j_idt2286"]').click()
             time.sleep(3.5)
             
