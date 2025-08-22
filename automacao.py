@@ -52,7 +52,7 @@ app = ctk.CTk()
 app.title("Compressor automatizado de PDFs")
 app.geometry('800x600')
 
-texto_instrucoes = lable = ctk.CTkLabel(app, text="""--- Instruções ---
+texto_instrucoes = ctk.CTkLabel(app, text="""--- Instruções ---
 Crie uma pasta chamada ‘pasta_origem’ (onde deve estar os PDFs), 
 depois crie outra pasta chamda ‘pasta_destinos’ e por fim, crie 
 a pasta final ‘pasta_comprimidos’
