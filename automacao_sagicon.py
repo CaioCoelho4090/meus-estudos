@@ -162,7 +162,7 @@ def obter_dados_protocolo():
     entry_inscricao_firma = ctk.CTkEntry(scrollable_frame)
     entry_inscricao_firma.grid(row=5, column=1, padx=10, pady=5, sticky="ew")
     
-    # --- AQUI CRIAMOS TODOS OS WIDGETS CONDICIONAIS ---
+    # --- WIDGETS CONDICIONAIS ---
     # Eles serão gerenciados pela função atualizar_campos()
     label_inscricao_profissional = ctk.CTkLabel(scrollable_frame, text="Inscrição do Profissional:")
     entry_inscricao_profissional = ctk.CTkEntry(scrollable_frame)
@@ -322,9 +322,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                     page.locator('xpath=/html/body/div[4]/aside[2]/section[2]/div[1]/form[1]/div[1]/div[3]/div/div[4]/div/div/div/div/div[4]/div/span/div[1]/div[1]/div[4]/div[3]/div[2]/select').select_option(value="2")
                 elif dados_protocolo["meio_contrato"] == "Outros":
                     page.locator('xpath=/html/body/div[4]/aside[2]/section[2]/div[1]/form[1]/div[1]/div[3]/div/div[4]/div/div/div/div/div[4]/div/span/div[1]/div[1]/div[4]/div[3]/div[2]/select').select_option(value="4")
-                else:
-                    print("Meio contratual em branco")
-                
+               
                 # Verifica se tem intervalo
                 if dados_protocolo["tem_intervalo"] == "Sim":
                     # Insere os horários antes do intervalo e salva
@@ -343,8 +341,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                     page.locator('xpath=//*[@id="formCadastrarProtocolo:modal-horarios-contratoIn"]').fill(dados_protocolo["horarios_entrada"])
                     page.locator('xpath=//*[@id="formCadastrarProtocolo:modal-horarios-contratoOut"]').fill(dados_protocolo["horarios_saida"])
                     page.locator('xpath=//*[@id="formCadastrarProtocolo:modal-horarios-contratoIncluir"]').click()
-                else:
-                    print("Algo deu errado")
+    
                 # Salva os dados contratuais e horários
                 page.locator('xpath=//*[@id="formCadastrarProtocolo:j_idt1155"]').click()
             elif dados_protocolo["ocorrencia"] == "142":    # Se for uma Alteração de Assistência Farmacêutica
@@ -400,8 +397,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                     page.locator('xpath=//*[@id="formCadastrarProtocolo:modal-horarios-contratoIn"]').fill(dados_protocolo["horarios_entrada"])
                     page.locator('xpath=//*[@id="formCadastrarProtocolo:modal-horarios-contratoOut"]').fill(dados_protocolo["horarios_saida"])
                     page.locator('xpath=//*[@id="formCadastrarProtocolo:modal-horarios-contratoIncluir"]').click()
-                else:
-                    print("Algo deu errado")
+        
                 # Salva os dados contratuais e horários
                 page.locator('xpath=//*[@id="formCadastrarProtocolo:j_idt1155"]').click()
             elif dados_protocolo["ocorrencia"] == "106":    # Se for uma alteração de horário de funcionamento
@@ -433,9 +429,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                 page.locator('xpath=//*[@id="formCadastrarProtocolo:modal-horariosIn"]').fill(dados_protocolo["horario_funcionamento_abertura"])
                 page.locator('xpath=//*[@id="formCadastrarProtocolo:modal-horariosOut"]').fill(dados_protocolo["horario_funcionamento_fechamento"])
                 page.locator('xpath=//*[@id="formCadastrarProtocolo:modal-horariosIncluir"]').click()
-            else:
-                print("Deu algum erro")
-            
+        
             time.sleep(5)
         except Exception as e:
             print(f"Ocorreu um erro: {e}")
