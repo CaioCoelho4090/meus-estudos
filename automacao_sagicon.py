@@ -52,7 +52,6 @@ def obter_dados_protocolo():
     def atualizar_campos(selecao):
         """Esconde/mostra campos baseados na seleção da Ocorrência."""
         # 1. Esconde todos os campos condicionais (código existente)
-        # ... (este bloco continua exatamente o mesmo) ...
         label_inscricao_profissional.grid_forget(); entry_inscricao_profissional.grid_forget()
         label_data_rescisao.grid_forget(); entry_data_rescisao.grid_forget()
         label_data_contratual.grid_forget(); entry_data_contratual.grid_forget()
@@ -66,7 +65,7 @@ def obter_dados_protocolo():
         frame_dias_assistencia.grid_forget()
         frame_dias_funcionamento.grid_forget()
         
-         # ### NOVO: Esconde os campos de Horário de Funcionamento ###
+         # Esconde os campos de Horário de Funcionamento ###
         label_tem_intervalo_func.grid_forget(); switch_tem_intervalo_func.grid_forget()
         label_horario_funcionamento1.grid_forget(); frame_funcionamento1.grid_forget()
         label_horario_funcionamento2.grid_forget(); frame_funcionamento2.grid_forget()
@@ -75,7 +74,6 @@ def obter_dados_protocolo():
 
         # 2. Exibe os campos baseados na seleção
         if selecao == "Responsabilidade Técnica" or selecao == "Alteração de Assistência Farmacêutica":
-            # ... (Lógica para RT e Assistência Farmacêutica continua a mesma) ...
             label_inscricao_profissional.grid(row=6, column=0, **grid_args_label); entry_inscricao_profissional.grid(row=6, column=1, **grid_args_entry)
             if selecao == "Responsabilidade Técnica":
                 label_data_contratual.grid(row=9, column=0, **grid_args_label); entry_data_contratual.grid(row=9, column=1, **grid_args_entry)
@@ -90,7 +88,7 @@ def obter_dados_protocolo():
             frame_dias_assistencia.grid(row=17, column=0, columnspan=2, pady=(15, 5), sticky="ew")
 
         elif selecao == "Alteração de Horário de Funcionamento":
-            # ### ALTERAÇÃO: Mostra os novos widgets dedicados ###
+            # Mostra os novos widgets dedicados ###
             label_tem_intervalo_func.grid(row=18, column=0, **grid_args_label_check)
             switch_tem_intervalo_func.grid(row=18, column=1, **grid_args_check)
             label_horario_funcionamento1.grid(row=19, column=0, **grid_args_label)
@@ -114,8 +112,6 @@ def obter_dados_protocolo():
         # Coleta de dados condicional
         # ... (aqui fica um pouco mais complexo, vamos refatorar) ...
 
-        # ### ALTERAÇÃO NA COLETA DE DADOS ###
-        
         # Campos que dependem da seleção, mas não são de horário
         if selecao_atual != "Alteração de Horário de Funcionamento":
             dados_inseridos["inscricao_profissional"] = entry_inscricao_profissional.get()
@@ -145,7 +141,7 @@ def obter_dados_protocolo():
             dias_selecionados = [dia for dia, checkbox in checkboxes_funcionamento.items() if checkbox.get() == 1]
             dados_inseridos["dias_funcionamento"] = dias_selecionados
         
-        # ### NOVO: Bloco de coleta de dados dedicado para Horário de Funcionamento ###
+        # Bloco de coleta de dados dedicado para Horário de Funcionamento ###
         if selecao_atual == "Alteração de Horário de Funcionamento":
             tem_intervalo_valor_func = switch_tem_intervalo_func.get()
             dados_inseridos["tem_intervalo_funcionamento"] = "Sim" if tem_intervalo_valor_func == 1 else "Não"
@@ -191,7 +187,7 @@ def obter_dados_protocolo():
     label_horarios2 = ctk.CTkLabel(scrollable_frame, text="Entrada 2 / Saída 2 (pós-intervalo):"); frame_horario2 = ctk.CTkFrame(scrollable_frame, fg_color="transparent"); entry_horarios_entrada2 = ctk.CTkEntry(frame_horario2, placeholder_text="HH:MM"); entry_horarios_entrada2.pack(side="left", expand=True, fill="x", padx=(0, 5)); entry_horarios_saida2 = ctk.CTkEntry(frame_horario2, placeholder_text="HH:MM"); entry_horarios_saida2.pack(side="left", expand=True, fill="x", padx=(5, 0))
     label_horario_funcionamento = ctk.CTkLabel(scrollable_frame, text="Abertura / Fechamento da Empresa:"); frame_funcionamento = ctk.CTkFrame(scrollable_frame, fg_color="transparent"); entry_horario_funcionamento_abertura = ctk.CTkEntry(frame_funcionamento, placeholder_text="HH:MM"); entry_horario_funcionamento_abertura.pack(side="left", expand=True, fill="x", padx=(0, 5)); entry_horario_funcionamento_fechamento = ctk.CTkEntry(frame_funcionamento, placeholder_text="HH:MM"); entry_horario_funcionamento_fechamento.pack(side="left", expand=True, fill="x", padx=(5, 0))
     
-    # ### NOVO: Criação dos widgets dedicados para Horário de Funcionamento ###
+    # Criação dos widgets dedicados para Horário de Funcionamento 
     # Eles serão criados mas ficarão escondidos até serem necessários.
     label_tem_intervalo_func = ctk.CTkLabel(scrollable_frame, text="Funcionamento possui intervalo?")
     switch_tem_intervalo_func = ctk.CTkSwitch(scrollable_frame, text="Não/Sim", onvalue=1, offvalue=0)
@@ -210,7 +206,7 @@ def obter_dados_protocolo():
     entry_horario_funcionamento_fechamento2 = ctk.CTkEntry(frame_funcionamento2, placeholder_text="HH:MM")
     entry_horario_funcionamento_fechamento2.pack(side="left", expand=True, fill="x", padx=(5, 0))
 
-    # ### ALTERAÇÃO AQUI: Frame de Dias de Assistência agora usa .grid() ###
+    # Frame de Dias de Assistência agora usa .grid() ###
     frame_dias_assistencia = ctk.CTkFrame(scrollable_frame)
     ctk.CTkLabel(frame_dias_assistencia, text="Dias da Assistência:", font=ctk.CTkFont(weight="bold")).grid(row=0, column=0, columnspan=4, sticky="w", padx=10, pady=(10,5))
     checkboxes_assistencia = {dia: ctk.CTkCheckBox(frame_dias_assistencia, text=dia) for dia in DIAS_SEMANA}
@@ -226,7 +222,7 @@ def obter_dados_protocolo():
     ctk.CTkButton(frame_botoes_assist, text="Sábado", width=80, command=sel_assist_sab).pack(side="left", padx=5)
     ctk.CTkButton(frame_botoes_assist, text="Domingo", width=80, command=sel_assist_dom).pack(side="left", padx=5)
 
-    # ### ALTERAÇÃO AQUI: Frame de Dias de Funcionamento agora usa .grid() ###
+    # Frame de Dias de Funcionamento agora usa .grid() ###
     frame_dias_funcionamento = ctk.CTkFrame(scrollable_frame)
     ctk.CTkLabel(frame_dias_funcionamento, text="Dias de Funcionamento:", font=ctk.CTkFont(weight="bold")).grid(row=0, column=0, columnspan=4, sticky="w", padx=10, pady=(10,5))
     checkboxes_funcionamento = {dia: ctk.CTkCheckBox(frame_dias_funcionamento, text=dia) for dia in DIAS_SEMANA}
@@ -250,8 +246,279 @@ def obter_dados_protocolo():
     app.mainloop()
     return dados_inseridos
 
+# Função para fazer login e ir para a página de protocolos
+def efetua_login_e_vai_para_protocolos(page, usuario_login: str, senha_login: str):
+    SELETOR_INPUT_USERNAME = r'#formLogin\:j_username'
+    SELETOR_INPUT_PASSWORD = r'#formLogin\:j_password'
+    SELETOR_BOTAO_LOGIN = r'#formLogin\:btnEntrar'
+    page.goto("http://sagicon.crf-to.cisantec.com.br/sagicon/login.jsf")
+    page.locator(SELETOR_INPUT_USERNAME).fill(usuario_login)
+    page.locator(SELETOR_INPUT_PASSWORD).fill(senha_login)
+    page.locator(SELETOR_BOTAO_LOGIN).click()
+    
+    # Vai para a página de protocolos
+    page.locator('xpath=/html/body/header/nav/a').click()
+    page.locator('xpath=//*[@id="j_idt56:j_idt60"]/div[4]/h3').click()
+    page.locator('xpath=//*[@id="j_idt56:j_idt60_3"]/ul/li[2]/a').click()
+    # Clica no botão "Inserir" e depois "FIRMA"
+    page.locator('xpath=//*[@id="formCadastrarProtocolo:j_idt1781"]').click()
+    page.locator('xpath=//*[@id="formCadastrarProtocolo:j_idt1801:j_idt1807"]').click()
+
+# Função para selecionar a ocorrência
+def seleciona_ocorrencia(page, codigo_ocorrencia: str):
+    # Define os seletores como variáveis
+    BOTAO_LUPA_ABRIR_CAIXA_PESQUISA = r'#formCadastrarProtocolo\:j_idt128'
+    BOTAO_SELECT_CODIGO_OCORRENCIA = r'#formPesquisaOcorrencia\:j_idt2250'
+    CAIXA_INPUT_CODIGO_OCORRENCIA = r'#formPesquisaOcorrencia\:value1N'
+    BOTAO_PESQUISAR_OCORRENCIA = r'#formPesquisaOcorrencia\:j_idt2284'
+    BOTAO_RETORNA_PESQUISA = r'#formPesquisaOcorrencia\:j_idt2286'
+    try:
+        # Clica no ícone para pesquisa da ocorrência e aguarda ficar visível
+        page.locator(BOTAO_LUPA_ABRIR_CAIXA_PESQUISA).click()
+        page.wait_for_selector(BOTAO_SELECT_CODIGO_OCORRENCIA, state="visible", timeout=10000)
+        
+        # Muda o tipo de pesquisa para Código e preenche
+        page.locator(BOTAO_SELECT_CODIGO_OCORRENCIA).select_option(value='Código')
+        page.locator(CAIXA_INPUT_CODIGO_OCORRENCIA).fill(codigo_ocorrencia)
+        
+        # Clica no botão de pesquisa e depois no botão Retornar
+        page.locator(BOTAO_PESQUISAR_OCORRENCIA).click()
+        page.locator(BOTAO_RETORNA_PESQUISA).click()
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+
+# Função para selecionar a Empresa
+def seleciona_empresa(page, codigo_empresa: str):
+    # Define os seletores como variáveis
+    BOTAO_ABRIR_CAIXA_PESQUISA_FIRMA = r'#formCadastrarProtocolo\:j_idt151'
+    CAIXA_INPUT_CODIGO_EMPRESA = r'#formPesquisaEstabelecimento\:value1T'
+    BOTAO_PESQUISAR_EMPRESA = r'#formPesquisaEstabelecimento\:j_idt2192'
+    BOTAO_RETORNAR_EMPRESA = r'#formPesquisaEstabelecimento\:j_idt2194'
+    try:
+        # Clica no ícone para pesquisa da firma e aguarda ficar visivel
+        page.locator(BOTAO_ABRIR_CAIXA_PESQUISA_FIRMA).click()
+        page.wait_for_selector(CAIXA_INPUT_CODIGO_EMPRESA, state="visible", timeout=10000)
+        
+        # Insere o código da firma e clica em pesquisar
+        page.locator(CAIXA_INPUT_CODIGO_EMPRESA).fill(codigo_empresa)
+        page.locator(BOTAO_PESQUISAR_EMPRESA).click()
+        
+        # Clica no botão Retornar
+        page.locator(BOTAO_RETORNAR_EMPRESA).click()
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+        
+# Função para selecionar o Profissional
+def seleciona_profissional(page, codigo_profissional: str):
+    BOTAO_ABRIR_CAIXA_PESQUISA_PROFISSIONAL = r'#formCadastrarProtocolo\:j_idt174'
+    CAIXA_INPUT_CODIGO_PROFISSIONAL = r'#formPesquisaProfissional\:value1T'
+    BOTAO_PESQUISAR_PROFISSIONAL = r'#formPesquisaProfissional\:j_idt2054'
+    BOTAO_RETORNAR_PROFISSIONAL = r'#formPesquisaProfissional\:j_idt2056'
+    try:
+        # Clica no ícone para pesquisa do profissional e aguarda ficar visivel
+        page.locator(BOTAO_ABRIR_CAIXA_PESQUISA_PROFISSIONAL).click()
+        page.wait_for_selector(CAIXA_INPUT_CODIGO_PROFISSIONAL, state="visible", timeout=10000)
+        
+        # Insere o código do profissional e clica em pesquisar
+        page.locator(CAIXA_INPUT_CODIGO_PROFISSIONAL).fill(codigo_profissional)
+        page.locator(BOTAO_PESQUISAR_PROFISSIONAL).click()
+        
+        # Clica no botão Retornar
+        page.locator(BOTAO_RETORNAR_PROFISSIONAL).click()
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+        
+# Função para o Tipo de Profissional (Diretor Técnico, Assistênte Técnico ou Substituto)
+def seleciona_tipo_profissional(page, tipo_profissional: str):
+    XPATH_OPCOES_TIPO_PROFISSIONAL = r'//*[@id="formCadastrarProtocolo:divRespTec"]/div[1]/div[1]/div[4]/div[1]/select'
+    try:
+        if tipo_profissional == "Assistente Técnico":
+            page.locator(XPATH_OPCOES_TIPO_PROFISSIONAL).select_option(value="A")
+        elif tipo_profissional == "Diretor Técnico":
+            page.locator(XPATH_OPCOES_TIPO_PROFISSIONAL).select_option(value="N")
+        elif tipo_profissional == "Substituto":
+            page.locator(XPATH_OPCOES_TIPO_PROFISSIONAL).select_option(value="S")
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+        
+# Função para o Tipo de Contrato (Contratado, Servidor Público, Sócio, Proprietário)
+def seleciona_tipo_contrato(page, tipo_contrato: str):
+    XPATH_OPCOES_TIPO_CONTRATO = r'//*[@id="formCadastrarProtocolo:divRespTec"]/div[1]/div[1]/div[4]/div[3]/div[1]/select'
+    try:
+        if tipo_contrato == "Contratado":
+            page.locator(XPATH_OPCOES_TIPO_CONTRATO).select_option(value="C")
+        elif tipo_contrato == "Sócio":
+            page.locator(XPATH_OPCOES_TIPO_CONTRATO).select_option(value="S")
+        elif tipo_contrato == "Proprietário":
+            page.locator(XPATH_OPCOES_TIPO_CONTRATO).select_option(value="P")
+        elif tipo_contrato == "Servidor Público":
+            page.locator(XPATH_OPCOES_TIPO_CONTRATO).select_option(value="U")
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+        
+# Função para o Meio Contratual (CTPS, Contrato de Prestação de Serviço, Outros)
+def seleciona_meio_contratual(page, meio_contratual: str):
+    XPATH_OPCOES_MEIO_CONTRATO = r'//*[@id="formCadastrarProtocolo:divRespTec"]/div[1]/div[1]/div[4]/div[3]/div[2]/select'
+    try:
+        if meio_contratual == "CTPS":
+            page.locator(XPATH_OPCOES_MEIO_CONTRATO).select_option(value="1")
+        elif meio_contratual == "Contrato de Prestação de Serviço":
+            page.locator(XPATH_OPCOES_MEIO_CONTRATO).select_option(value="2")
+        elif meio_contratual == "Outros":
+            page.locator(XPATH_OPCOES_MEIO_CONTRATO).select_option(value="4")
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+# Função para verificar se existe intervalo e preencher os horários
+
+def verifica_intervalo_e_preenche_horarios(page, tem_intervalo: str, horarios_entrada: str, horarios_saida: str, horarios_entrada2: str, horarios_saida2: str, dias_selecionados: list, mapa_seletores: dict):
+    # Define os seletores como variáveis
+    SELETOR_ADICIONAR_HORARIO = r'//*[@id="formCadastrarProtocolo:j_idt1186"]'
+    CAIXA_INPUT_HORARIO_ENTRADA = r'#formCadastrarProtocolo\:modal-horarios-contratoIn'
+    CAIXA_INPUT_HORARIO_SAIDA = r'#formCadastrarProtocolo\:modal-horarios-contratoOut'
+    SELETOR_BOTAO_INCLUIR = r'#formCadastrarProtocolo\:modal-horarios-contratoIncluir'
+    if tem_intervalo == "Sim":
+        # Insere os horários antes do intervalo e salva
+        page.wait_for_selector(SELETOR_ADICIONAR_HORARIO, state="visible", timeout=10000)
+        page.locator(SELETOR_ADICIONAR_HORARIO).click()
+        seleciona_dias_da_semana(page, dias_selecionados, mapa_seletores)
+        page.wait_for_selector(CAIXA_INPUT_HORARIO_ENTRADA, state="visible", timeout=10000)
+        page.locator(CAIXA_INPUT_HORARIO_ENTRADA).fill(horarios_entrada)
+        page.locator(CAIXA_INPUT_HORARIO_SAIDA).fill(horarios_saida)
+        page.locator(SELETOR_BOTAO_INCLUIR).click()
+        # Insere os horários depois do intervalo e salva
+        page.wait_for_selector(SELETOR_ADICIONAR_HORARIO, state="visible", timeout=10000)
+        page.locator(SELETOR_ADICIONAR_HORARIO).click()
+        seleciona_dias_da_semana(page, dias_selecionados, mapa_seletores)
+        page.wait_for_selector(CAIXA_INPUT_HORARIO_ENTRADA, state="visible", timeout=10000)
+        page.locator(CAIXA_INPUT_HORARIO_ENTRADA).fill(horarios_entrada2)
+        page.locator(CAIXA_INPUT_HORARIO_SAIDA).fill(horarios_saida2)
+        page.locator(SELETOR_BOTAO_INCLUIR).click()
+    elif tem_intervalo == "Não":
+        # Insere os horários antes do intervalo e salva
+        page.wait_for_selector(SELETOR_ADICIONAR_HORARIO, state="visible", timeout=10000)
+        page.locator(SELETOR_ADICIONAR_HORARIO).click()
+        seleciona_dias_da_semana(page, dias_selecionados, mapa_seletores)
+        page.wait_for_selector(CAIXA_INPUT_HORARIO_ENTRADA, state="visible", timeout=10000)
+        page.locator(CAIXA_INPUT_HORARIO_ENTRADA).fill(horarios_entrada)
+        page.locator(CAIXA_INPUT_HORARIO_SAIDA).fill(horarios_saida)
+        page.locator(SELETOR_BOTAO_INCLUIR).click()
+        
+# Função para verificar se existe intervalo e preencher horários da firma
+def verifica_intervalo_preenche_horarios_firma(page, tem_intervalo_funcionamento: str, horario_abertura: str, horario_fechamento: str, horario_abertura2: str, horario_fechamento2: str, dias_selecionados: list, mapa_seletores: dict):
+    SELETOR_ADICIONAR_HORARIO_FIRMA = r'#formCadastrarProtocolo\:j_idt830'
+    CAIXA_INPUT_HORARIO_ABERTURA = r'#formCadastrarProtocolo\:modal-horariosIn'
+    CAIXA_INPUT_HORARIO_FECHAMENTO = r'#formCadastrarProtocolo\:modal-horariosOut'
+    SELETOR_BOTAO_INCLUIR_FIRMA = r'#formCadastrarProtocolo\:modal-horariosIncluir'
+    if tem_intervalo_funcionamento == "Sim":
+        # Insere os horários antes do intervalo
+        page.wait_for_selector(SELETOR_ADICIONAR_HORARIO_FIRMA, state="visible", timeout=10000)
+        page.locator(SELETOR_ADICIONAR_HORARIO_FIRMA).click()
+        seleciona_dias_da_semana(page, dias_selecionados, mapa_seletores)
+        page.wait_for_selector(CAIXA_INPUT_HORARIO_ABERTURA, state="visible", timeout=10000)
+        page.locator(CAIXA_INPUT_HORARIO_ABERTURA).fill(horario_abertura)
+        page.locator(CAIXA_INPUT_HORARIO_FECHAMENTO).fill(horario_fechamento)
+        page.locator(SELETOR_BOTAO_INCLUIR_FIRMA).click()
+        # Insere os horários depois do intervalo
+        page.wait_for_selector(SELETOR_ADICIONAR_HORARIO_FIRMA, state="visible", timeout=10000)
+        page.locator(SELETOR_ADICIONAR_HORARIO_FIRMA).click()
+        seleciona_dias_da_semana(page, dias_selecionados, mapa_seletores)
+        page.wait_for_selector(CAIXA_INPUT_HORARIO_ABERTURA, state="visible", timeout=10000)
+        page.locator(CAIXA_INPUT_HORARIO_ABERTURA).fill(horario_abertura2)
+        page.locator(CAIXA_INPUT_HORARIO_FECHAMENTO).fill(horario_fechamento2)
+        page.locator(SELETOR_BOTAO_INCLUIR_FIRMA).click()
+    elif tem_intervalo_funcionamento == "Não":
+        # Insere os horários antes do intervalo
+        page.wait_for_selector(SELETOR_ADICIONAR_HORARIO_FIRMA, state="visible", timeout=10000)
+        page.locator(SELETOR_ADICIONAR_HORARIO_FIRMA).click()
+        seleciona_dias_da_semana(page, dias_selecionados, mapa_seletores)
+        page.wait_for_selector(CAIXA_INPUT_HORARIO_ABERTURA, state="visible", timeout=10000)
+        page.locator(CAIXA_INPUT_HORARIO_ABERTURA).fill(horario_abertura)
+        page.locator(CAIXA_INPUT_HORARIO_FECHAMENTO).fill(horario_fechamento)
+        page.locator(SELETOR_BOTAO_INCLUIR_FIRMA).click()
+
+# Função para selecionar os dias da semana
+def seleciona_dias_da_semana(page, dias_a_selecionar: list, mapa_de_seletores: dict):
+    """
+    Sincroniza os checkboxes da página usando a estratégia "Resetar e Definir"
+    para máxima confiabilidade contra componentes web complexos (AJAX).
+    """
+    
+    # --- PASSO 1: RESETAR PARA UM ESTADO CONHECIDO (TUDO DESMARCADO) ---
+
+    # Seletor para a caixa clicável da opção "Todos os dias"
+    SELETOR_TODOS_OS_DIAS_BOX = '#formCadastrarProtocolo\\:modal-horarios-contratod tr:has-text("Todos os dias") .ui-chkbox-box'
+    
+    # Seletor para o ÍCONE de check DENTRO da caixa "Todos os dias"
+    SELETOR_TODOS_OS_DIAS_CHECK = f"{SELETOR_TODOS_OS_DIAS_BOX} span.ui-icon-check"
+    
+    # Verifica se a opção "Todos os dias" já está marcada
+    todos_ja_marcado = page.locator(SELETOR_TODOS_OS_DIAS_CHECK).is_visible(timeout=1000)
+
+    if todos_ja_marcado:
+        # Se "Todos" já está marcado, um clique desmarca tudo.
+        page.locator(SELETOR_TODOS_OS_DIAS_BOX).click()
+    else:
+        # Se não está, significa que o padrão (Seg-Sex) está ativo.
+        # Clica uma vez para marcar TODOS, e outra para desmarcar TODOS.
+        page.locator(SELETOR_TODOS_OS_DIAS_BOX).click() # Marca todos
+        page.wait_for_timeout(500) # Pausa para o site processar o primeiro clique
+        page.locator(SELETOR_TODOS_OS_DIAS_BOX).click() # Desmarca todos
+    
+    page.wait_for_timeout(500) # Pausa final para garantir que o reset foi processado.
+    
+    # --- PASSO 2: DEFINIR O ESTADO DESEJADO ---
+    if not dias_a_selecionar:
+        print("Nenhum dia para selecionar.")
+    else:
+        for dia in dias_a_selecionar:
+            if dia in mapa_de_seletores:
+                seletor_do_dia = mapa_de_seletores[dia]
+                page.locator(seletor_do_dia).click()
+                # Pequena pausa após cada clique para não sobrecarregar o site
+                page.wait_for_timeout(250)
+            else:
+                print(f"Aviso: Dia '{dia}' não encontrado no mapa de seletores.")
+            
+# Função principal que inicia o processo de automação            
 def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
-    # Inicia o navegador chrome
+    # Define os seletores e XPATHs como varáveis
+    XPATH_DADOS_FIRMA = r'//*[@id="formCadastrarProtocolo"]/div[1]/div[3]/ul/li[4]/a'
+    XPATH_RESPONSAVEL_TECNICO = r'//*[@id="formCadastrarProtocolo:panelTabDadosFirmas"]/div/div/ul/li[4]/a'
+    SELETOR_ADICIONAR_RT = r'#formCadastrarProtocolo\:j_idt1354'
+    SELETOR_DATA_CONTRATO = r'#formCadastrarProtocolo\:j_idt1120_input'
+    SELETOR_BOTAO_SALVAR_DADOS_CONTRATUAIS = r'#formCadastrarProtocolo\:j_idt1155'
+    SELETOR_BOTAO_CARREGAR_CONTRATO = r'#formCadastrarProtocolo\:j_idt1357'
+    SELETOR_ICONE_EDITAR = r'#formCadastrarProtocolo\:dataTableRTAtivo\:0\:j_idt1330'
+    SELETOR_ICONE_EXCLUIR_HORARIO = r'#formCadastrarProtocolo\:tbHorarioRT\:0\:j_idt1184'
+    SELETOR_BOTAO_CONFIRMAR_EXCLUSAO = r'#formmodalConfirmaDeleteHorarioRT\:excluirComAction'
+    XPATH_BOTAO_HORARIOS = R'//*[@id="formCadastrarProtocolo:panelTabDadosFirmas"]/div/div/ul/li[2]/a'
+    SELETOR_ICONE_EXCLUIR_HORARIO_FIRMA = r'#formCadastrarProtocolo\:tbHorarioFunc\:0\:j_idt827'
+    SELETOR_CONFIRMAR_EXCLUSAO_HORARIO_FIRMA = r'#formmodalConfirmaDeleteHorario\:excluirComAction'
+    
+    # Mapa para a seleção dos dias da semana de assistência farmacêutica
+    MAPA_DIAS_ASSISTENCIA = {
+        "Domingo": r'#formCadastrarProtocolo\:modal-horarios-contratod tr:has-text("Domingo") .ui-chkbox-box',
+        "Segunda": r'#formCadastrarProtocolo\:modal-horarios-contratod tr:has-text("Segunda-Feira") .ui-chkbox-box',
+        "Terça": r'#formCadastrarProtocolo\:modal-horarios-contratod tr:has-text("Terça-Feira") .ui-chkbox-box',
+        "Quarta": r'#formCadastrarProtocolo\:modal-horarios-contratod tr:has-text("Quarta-Feira") .ui-chkbox-box',
+        "Quinta": r'#formCadastrarProtocolo\:modal-horarios-contratod tr:has-text("Quinta-Feira") .ui-chkbox-box',
+        "Sexta": r'#formCadastrarProtocolo\:modal-horarios-contratod tr:has-text("Sexta-Feira") .ui-chkbox-box',
+        "Sábado": r'#formCadastrarProtocolo\:modal-horarios-contratod tr:has-text("Sabado") .ui-chkbox-box'
+    }
+    
+    # Mapa para a seleção dos dias da semana de funcionamento da empresa
+    MAPA_DIAS_FUNCIONAMENTO = {
+        "Domingo": r'#formCadastrarProtocolo\:modal-horariosd tr:has-text("Domingo") .ui-chkbox-box',
+        "Segunda": r'#formCadastrarProtocolo\:modal-horariosd tr:has-text("Segunda-Feira") .ui-chkbox-box',
+        "Terça": r'#formCadastrarProtocolo\:modal-horariosd tr:has-text("Terça-Feira") .ui-chkbox-box',
+        "Quarta": r'#formCadastrarProtocolo\:modal-horariosd tr:has-text("Quarta-Feira") .ui-chkbox-box',
+        "Quinta": r'#formCadastrarProtocolo\:modal-horariosd tr:has-text("Quinta-Feira") .ui-chkbox-box',
+        "Sexta": r'#formCadastrarProtocolo\:modal-horariosd tr:has-text("Sexta-Feira") .ui-chkbox-box',
+        "Sábado": r'#formCadastrarProtocolo\:modal-horariosd tr:has-text("Sabado") .ui-chkbox-box'
+    }
+    # Seletores de todos os dias da semana_DIAS_ASSISTENCIA = r'#formCadastrarProtocolo\:modal-horarios-contratod\:j_idt1229 > div:nth-child(2) > div:nth-child(2)'_DIAS_FUNCIONAMENTO = r'#formCadastrarProtocolo\:modal-horariosd\:j_idt877 > div:nth-child(2) > div:nth-child(2)'
+    
+    # Inicia o navegador chrome 
     with sync_playwright() as p:
         navegador = p.chromium.launch(headless=False, args=['--start-maximized'])
         contexto = navegador.new_context(no_viewport=True)
@@ -259,199 +526,11 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
         page.set_default_timeout(30000)
         
         try:
-            # Define os seletores de login como variáveis
-            SELETOR_INPUT_USERNAME = r'#formLogin\:j_username'
-            SELETOR_INPUT_PASSWORD = r'#formLogin\:j_password'
-            SELETOR_BOTAO_LOGIN = r'#formLogin\:btnEntrar'
+            # Efetua o login e vai para a página de protocolos
+            usuario_login = dados_protocolo["usuario_login"]
+            senha_login = dados_protocolo["senha_login"]
+            efetua_login_e_vai_para_protocolos(page, usuario_login, senha_login)
             
-            # Define os seletores do caminho para Dados da Firma e Responsável Técnico e Adicionar RT
-            XPATH_DADOS_FIRMA = r'//*[@id="formCadastrarProtocolo"]/div[1]/div[3]/ul/li[4]/a'
-            XPATH_RESPONSAVEL_TECNICO = r'//*[@id="formCadastrarProtocolo:panelTabDadosFirmas"]/div/div/ul/li[4]/a'
-            SELETOR_ADICIONAR_RT = r'#formCadastrarProtocolo\:j_idt1354'
-            SELETOR_DATA_CONTRATO = r'#formCadastrarProtocolo\:j_idt1120_input'
-            SELETOR_BOTAO_SALVAR_DADOS_CONTRATUAIS = r'#formCadastrarProtocolo\:j_idt1155'
-            SELETOR_BOTAO_CARREGAR_CONTRATO = r'#formCadastrarProtocolo\:j_idt1357'
-            SELETOR_ICONE_EDITAR = r'#formCadastrarProtocolo\:dataTableRTAtivo\:0\:j_idt1330'
-            SELETOR_ICONE_EXCLUIR_HORARIO = r'#formCadastrarProtocolo\:tbHorarioRT\:0\:j_idt1184'
-            SELETOR_BOTAO_CONFIRMAR_EXCLUSAO = r'#formmodalConfirmaDeleteHorarioRT\:excluirComAction'
-            XPATH_BOTAO_HORARIOS = R'//*[@id="formCadastrarProtocolo:panelTabDadosFirmas"]/div/div/ul/li[2]/a'
-            SELETOR_ICONE_EXCLUIR_HORARIO_FIRMA = r'#formCadastrarProtocolo\:tbHorarioFunc\:0\:j_idt827'
-            SELETOR_CONFIRMAR_EXCLUSAO_HORARIO_FIRMA = r'#formmodalConfirmaDeleteHorario\:excluirComAction'
-            
-            # Efetua o login
-            page.goto("http://sagicon.crf-to.cisantec.com.br/sagicon/login.jsf")
-            page.locator(SELETOR_INPUT_USERNAME).fill(dados_protocolo["usuario_login"])
-            page.locator(SELETOR_INPUT_PASSWORD).fill(dados_protocolo["senha_login"])
-            page.locator(SELETOR_BOTAO_LOGIN).click()
-            
-            # Vai para a página de protocolos
-            page.locator('xpath=/html/body/header/nav/a').click()
-            page.locator('xpath=//*[@id="j_idt56:j_idt60"]/div[4]/h3').click()
-            page.locator('xpath=//*[@id="j_idt56:j_idt60_3"]/ul/li[2]/a').click()
-            
-            # Clica no botão "Inserir" e depois "FIRMA"
-            page.locator('xpath=//*[@id="formCadastrarProtocolo:j_idt1781"]').click()
-            page.locator('xpath=//*[@id="formCadastrarProtocolo:j_idt1801:j_idt1807"]').click()
-            
-            # Função para selecionar a ocorrência
-            def seleciona_ocorrencia(page, codigo_ocorrencia: str):
-                # Define os seletores como variáveis
-                BOTAO_LUPA_ABRIR_CAIXA_PESQUISA = r'#formCadastrarProtocolo\:j_idt128'
-                BOTAO_SELECT_CODIGO_OCORRENCIA = r'#formPesquisaOcorrencia\:j_idt2250'
-                CAIXA_INPUT_CODIGO_OCORRENCIA = r'#formPesquisaOcorrencia\:value1N'
-                BOTAO_PESQUISAR_OCORRENCIA = r'#formPesquisaOcorrencia\:j_idt2284'
-                BOTAO_RETORNA_PESQUISA = r'#formPesquisaOcorrencia\:j_idt2286'
-                try:
-                    # Clica no ícone para pesquisa da ocorrência e aguarda ficar visível
-                    page.locator(BOTAO_LUPA_ABRIR_CAIXA_PESQUISA).click()
-                    page.wait_for_selector(BOTAO_SELECT_CODIGO_OCORRENCIA, state="visible", timeout=10000)
-                    
-                    # Muda o tipo de pesquisa para Código e preenche
-                    page.locator(BOTAO_SELECT_CODIGO_OCORRENCIA).select_option(value='Código')
-                    page.locator(CAIXA_INPUT_CODIGO_OCORRENCIA).fill(codigo_ocorrencia)
-                    
-                    # Clica no botão de pesquisa e depois no botão Retornar
-                    page.locator(BOTAO_PESQUISAR_OCORRENCIA).click()
-                    page.locator(BOTAO_RETORNA_PESQUISA).click()
-                except Exception as e:
-                    print(f"Ocorreu um erro: {e}")
-            # Função para selecionar a Empresa
-            def seleciona_empresa(page, codigo_empresa: str):
-                # Define os seletores como variáveis
-                BOTAO_ABRIR_CAIXA_PESQUISA_FIRMA = r'#formCadastrarProtocolo\:j_idt151'
-                CAIXA_INPUT_CODIGO_EMPRESA = r'#formPesquisaEstabelecimento\:value1T'
-                BOTAO_PESQUISAR_EMPRESA = r'#formPesquisaEstabelecimento\:j_idt2192'
-                BOTAO_RETORNAR_EMPRESA = r'#formPesquisaEstabelecimento\:j_idt2194'
-                try:
-                    # Clica no ícone para pesquisa da firma e aguarda ficar visivel
-                    page.locator(BOTAO_ABRIR_CAIXA_PESQUISA_FIRMA).click()
-                    page.wait_for_selector(CAIXA_INPUT_CODIGO_EMPRESA, state="visible", timeout=10000)
-                    
-                    # Insere o código da firma e clica em pesquisar
-                    page.locator(CAIXA_INPUT_CODIGO_EMPRESA).fill(codigo_empresa)
-                    page.locator(BOTAO_PESQUISAR_EMPRESA).click()
-                    
-                    # Clica no botão Retornar
-                    page.locator(BOTAO_RETORNAR_EMPRESA).click()
-                except Exception as e:
-                    print(f"Ocorreu um erro: {e}")
-            # Função para selecionar o Profissional
-            def seleciona_profissional(page, codigo_profissional: str):
-                BOTAO_ABRIR_CAIXA_PESQUISA_PROFISSIONAL = r'#formCadastrarProtocolo\:j_idt174'
-                CAIXA_INPUT_CODIGO_PROFISSIONAL = r'#formPesquisaProfissional\:value1T'
-                BOTAO_PESQUISAR_PROFISSIONAL = r'#formPesquisaProfissional\:j_idt2054'
-                BOTAO_RETORNAR_PROFISSIONAL = r'#formPesquisaProfissional\:j_idt2056'
-                try:
-                    # Clica no ícone para pesquisa do profissional e aguarda ficar visivel
-                    page.locator(BOTAO_ABRIR_CAIXA_PESQUISA_PROFISSIONAL).click()
-                    page.wait_for_selector(CAIXA_INPUT_CODIGO_PROFISSIONAL, state="visible", timeout=10000)
-                    
-                    # Insere o código do profissional e clica em pesquisar
-                    page.locator(CAIXA_INPUT_CODIGO_PROFISSIONAL).fill(codigo_profissional)
-                    page.locator(BOTAO_PESQUISAR_PROFISSIONAL).click()
-                    
-                    # Clica no botão Retornar
-                    page.locator(BOTAO_RETORNAR_PROFISSIONAL).click()
-                except Exception as e:
-                    print(f"Ocorreu um erro: {e}")
-            # Função para o Tipo de Profissional (Diretor Técnico, Assistênte Técnico ou Substituto)
-            def seleciona_tipo_profissional(page, tipo_profissional: str):
-                XPATH_OPCOES_TIPO_PROFISSIONAL = r'//*[@id="formCadastrarProtocolo:divRespTec"]/div[1]/div[1]/div[4]/div[1]/select'
-                try:
-                    if tipo_profissional == "Assistente Técnico":
-                        page.locator(XPATH_OPCOES_TIPO_PROFISSIONAL).select_option(value="A")
-                    elif tipo_profissional == "Diretor Técnico":
-                        page.locator(XPATH_OPCOES_TIPO_PROFISSIONAL).select_option(value="N")
-                    elif tipo_profissional == "Substituto":
-                        page.locator(XPATH_OPCOES_TIPO_PROFISSIONAL).select_option(value="S")
-                except Exception as e:
-                    print(f"Ocorreu um erro: {e}")
-            # Função para o Tipo de Contrato (Contratado, Servidor Público, Sócio, Proprietário)
-            def seleciona_tipo_contrato(page, tipo_contrato: str):
-                XPATH_OPCOES_TIPO_CONTRATO = r'//*[@id="formCadastrarProtocolo:divRespTec"]/div[1]/div[1]/div[4]/div[3]/div[1]/select'
-                try:
-                    if tipo_contrato == "Contratado":
-                        page.locator(XPATH_OPCOES_TIPO_CONTRATO).select_option(value="C")
-                    elif tipo_contrato == "Sócio":
-                        page.locator(XPATH_OPCOES_TIPO_CONTRATO).select_option(value="S")
-                    elif tipo_contrato == "Proprietário":
-                        page.locator(XPATH_OPCOES_TIPO_CONTRATO).select_option(value="P")
-                    elif tipo_contrato == "Servidor Público":
-                        page.locator(XPATH_OPCOES_TIPO_CONTRATO).select_option(value="U")
-                except Exception as e:
-                    print(f"Ocorreu um erro: {e}")
-            # Função para o Meio Contratual (CTPS, Contrato de Prestação de Serviço, Outros)
-            def seleciona_meio_contratual(page, meio_contratual: str):
-                XPATH_OPCOES_MEIO_CONTRATO = r'//*[@id="formCadastrarProtocolo:divRespTec"]/div[1]/div[1]/div[4]/div[3]/div[2]/select'
-                try:
-                    if meio_contratual == "CTPS":
-                        page.locator(XPATH_OPCOES_MEIO_CONTRATO).select_option(value="1")
-                    elif meio_contratual == "Contrato de Prestação de Serviço":
-                        page.locator(XPATH_OPCOES_MEIO_CONTRATO).select_option(value="2")
-                    elif meio_contratual == "Outros":
-                        page.locator(XPATH_OPCOES_MEIO_CONTRATO).select_option(value="4")
-                except Exception as e:
-                    print(f"Ocorreu um erro: {e}")
-            # Função para verificar se existe intervalo e preencher os horários
-            def verifica_intervalo_e_preenche_horarios(page, tem_intervalo: str, horarios_entrada: str, horarios_saida: str, horarios_entrada2: str, horarios_saida2: str):
-                # Define os seletores como variáveis
-                SELETOR_ADICIONAR_HORARIO = r'//*[@id="formCadastrarProtocolo:j_idt1186"]'
-                CAIXA_INPUT_HORARIO_ENTRADA = r'#formCadastrarProtocolo\:modal-horarios-contratoIn'
-                CAIXA_INPUT_HORARIO_SAIDA = r'#formCadastrarProtocolo\:modal-horarios-contratoOut'
-                SELETOR_BOTAO_INCLUIR = r'#formCadastrarProtocolo\:modal-horarios-contratoIncluir'
-                if tem_intervalo == "Sim":
-                    # Insere os horários antes do intervalo e salva
-                    page.wait_for_selector(SELETOR_ADICIONAR_HORARIO, state="visible", timeout=10000)
-                    page.locator(SELETOR_ADICIONAR_HORARIO).click()
-                    page.wait_for_selector(CAIXA_INPUT_HORARIO_ENTRADA, state="visible", timeout=10000)
-                    page.locator(CAIXA_INPUT_HORARIO_ENTRADA).fill(horarios_entrada)
-                    page.locator(CAIXA_INPUT_HORARIO_SAIDA).fill(horarios_saida)
-                    page.locator(SELETOR_BOTAO_INCLUIR).click()
-                    # Insere os horários depois do intervalo e salva
-                    page.wait_for_selector(SELETOR_ADICIONAR_HORARIO, state="visible", timeout=10000)
-                    page.locator(SELETOR_ADICIONAR_HORARIO).click()
-                    page.wait_for_selector(CAIXA_INPUT_HORARIO_ENTRADA, state="visible", timeout=10000)
-                    page.locator(CAIXA_INPUT_HORARIO_ENTRADA).fill(horarios_entrada2)
-                    page.locator(CAIXA_INPUT_HORARIO_SAIDA).fill(horarios_saida2)
-                    page.locator(SELETOR_BOTAO_INCLUIR).click()
-                elif tem_intervalo == "Não":
-                    # Insere os horários antes do intervalo e salva
-                    page.wait_for_selector(SELETOR_ADICIONAR_HORARIO, state="visible", timeout=10000)
-                    page.locator(SELETOR_ADICIONAR_HORARIO).click()
-                    page.wait_for_selector(CAIXA_INPUT_HORARIO_ENTRADA, state="visible", timeout=10000)
-                    page.locator(CAIXA_INPUT_HORARIO_ENTRADA).fill(horarios_entrada)
-                    page.locator(CAIXA_INPUT_HORARIO_SAIDA).fill(horarios_saida)
-                    page.locator(SELETOR_BOTAO_INCLUIR).click()
-            # Função para verificar se existe intervalo e preencher horários da firma
-            def verifica_intervalo_preenche_horarios_firma(page, tem_intervalo_funcionamento: str, horario_abertura: str, horario_fechamento: str, horario_abertura2: str, horario_fechamento2: str):
-                SELETOR_ADICIONAR_HORARIO_FIRMA = r'#formCadastrarProtocolo\:j_idt830'
-                CAIXA_INPUT_HORARIO_ABERTURA = r'#formCadastrarProtocolo\:modal-horariosIn'
-                CAIXA_INPUT_HORARIO_FECHAMENTO = r'#formCadastrarProtocolo\:modal-horariosOut'
-                SELETOR_BOTAO_INCLUIR_FIRMA = r'#formCadastrarProtocolo\:modal-horariosIncluir'
-                if tem_intervalo_funcionamento == "Sim":
-                    # Insere os horários antes do intervalo
-                    page.wait_for_selector(SELETOR_ADICIONAR_HORARIO_FIRMA, state="visible", timeout=10000)
-                    page.locator(SELETOR_ADICIONAR_HORARIO_FIRMA).click()
-                    page.wait_for_selector(CAIXA_INPUT_HORARIO_ABERTURA, state="visible", timeout=10000)
-                    page.locator(CAIXA_INPUT_HORARIO_ABERTURA).fill(horario_abertura)
-                    page.locator(CAIXA_INPUT_HORARIO_FECHAMENTO).fill(horario_fechamento)
-                    page.locator(SELETOR_BOTAO_INCLUIR_FIRMA).click()
-                    # Insere os horários depois do intervalo
-                    page.wait_for_selector(SELETOR_ADICIONAR_HORARIO_FIRMA, state="visible", timeout=10000)
-                    page.locator(SELETOR_ADICIONAR_HORARIO_FIRMA).click()
-                    page.wait_for_selector(CAIXA_INPUT_HORARIO_ABERTURA, state="visible", timeout=10000)
-                    page.locator(CAIXA_INPUT_HORARIO_ABERTURA).fill(horario_abertura2)
-                    page.locator(CAIXA_INPUT_HORARIO_FECHAMENTO).fill(horario_fechamento2)
-                    page.locator(SELETOR_BOTAO_INCLUIR_FIRMA).click()
-                elif tem_intervalo_funcionamento == "Não":
-                    # Insere os horários antes do intervalo
-                    page.wait_for_selector(SELETOR_ADICIONAR_HORARIO_FIRMA, state="visible", timeout=10000)
-                    page.locator(SELETOR_ADICIONAR_HORARIO_FIRMA).click()
-                    page.wait_for_selector(CAIXA_INPUT_HORARIO_ABERTURA, state="visible", timeout=10000)
-                    page.locator(CAIXA_INPUT_HORARIO_ABERTURA).fill(horario_abertura)
-                    page.locator(CAIXA_INPUT_HORARIO_FECHAMENTO).fill(horario_fechamento)
-                    page.locator(SELETOR_BOTAO_INCLUIR_FIRMA).click()
-                    
             ocorrencia = dados_protocolo["ocorrencia"]
             # Se for uma Baixa de Responsabilidade Técnica
             if ocorrencia == '162': 
@@ -482,6 +561,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                 horarios_saida = dados_protocolo["horarios_saida"]
                 horarios_entrada2 = dados_protocolo["horarios_entrada2"]
                 horarios_saida2 = dados_protocolo["horarios_saida2"]
+                dias_assistencia = dados_protocolo.get("dias_assistencia", [])
                 seleciona_ocorrencia(page, ocorrencia)
                 seleciona_empresa(page, codigo_empresa)
                 seleciona_profissional(page, codigo_profissional)
@@ -495,7 +575,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                 page.locator(SELETOR_DATA_CONTRATO).fill(dados_protocolo["data_contratual"])
                 seleciona_tipo_contrato(page, tipo_contrato)
                 seleciona_meio_contratual(page, meio_contratual)
-                verifica_intervalo_e_preenche_horarios(page, tem_intervalo, horarios_entrada, horarios_saida, horarios_entrada2, horarios_saida2)
+                verifica_intervalo_e_preenche_horarios(page, tem_intervalo, horarios_entrada, horarios_saida, horarios_entrada2, horarios_saida2, dias_assistencia, MAPA_DIAS_ASSISTENCIA)
                 # Salva os dados contratuais e horários
                 page.locator(SELETOR_BOTAO_SALVAR_DADOS_CONTRATUAIS).click()
             # Se for uma Alteração de Assistência Farmacêutica
@@ -507,6 +587,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                 horarios_saida = dados_protocolo["horarios_saida"]
                 horarios_entrada2 = dados_protocolo["horarios_entrada2"]
                 horarios_saida2 = dados_protocolo["horarios_saida2"]
+                dias_assistencia = dados_protocolo.get("dias_assistencia", [])
                 seleciona_ocorrencia(page, ocorrencia)
                 seleciona_empresa(page, codigo_empresa)
                 seleciona_profissional(page, codigo_profissional)
@@ -523,7 +604,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                     page.wait_for_selector(SELETOR_BOTAO_CONFIRMAR_EXCLUSAO, state='visible', timeout=10000)
                     page.locator(SELETOR_BOTAO_CONFIRMAR_EXCLUSAO).click()
                     page.wait_for_selector(SELETOR_BOTAO_CONFIRMAR_EXCLUSAO, state="hidden", timeout=10000)
-                verifica_intervalo_e_preenche_horarios(page, tem_intervalo, horarios_entrada, horarios_saida, horarios_entrada2, horarios_saida2)
+                verifica_intervalo_e_preenche_horarios(page, tem_intervalo, horarios_entrada, horarios_saida, horarios_entrada2, horarios_saida2, dias_assistencia, MAPA_DIAS_ASSISTENCIA)
                 # Salva os dados contratuais e horários
                 page.locator(SELETOR_BOTAO_SALVAR_DADOS_CONTRATUAIS).click()
             # Se for uma Alteração de Horário de Funcionamento
@@ -534,6 +615,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                 tem_intervalo_funcionamento = dados_protocolo.get("tem_intervalo_funcionamento", "Não")
                 horarios_abertura2 = dados_protocolo.get("horario_funcionamento_abertura2", "")
                 horarios_fechamento2 = dados_protocolo.get("horario_funcionamento_fechamento2", "")
+                dias_funcionamento = dados_protocolo.get("dias_funcionamento", [])
                 seleciona_ocorrencia(page, ocorrencia)
                 seleciona_empresa(page, codigo_empresa)
                 # Vai para "Dados da Firma" e depois clica em Horários
@@ -546,7 +628,7 @@ def inicia_a_geracao_do_protocolo(dados_protocolo: dict):
                     page.wait_for_selector(SELETOR_CONFIRMAR_EXCLUSAO_HORARIO_FIRMA, state='visible', timeout=10000)
                     page.locator(SELETOR_CONFIRMAR_EXCLUSAO_HORARIO_FIRMA).click()
                     page.wait_for_selector(SELETOR_CONFIRMAR_EXCLUSAO_HORARIO_FIRMA, state="hidden", timeout=10000)
-                verifica_intervalo_preenche_horarios_firma(page, tem_intervalo_funcionamento, horarios_abertura, horarios_fechamento, horarios_abertura2, horarios_fechamento2)
+                verifica_intervalo_preenche_horarios_firma(page, tem_intervalo_funcionamento, horarios_abertura, horarios_fechamento, horarios_abertura2, horarios_fechamento2, dias_funcionamento, MAPA_DIAS_FUNCIONAMENTO)
             time.sleep(5)
         except Exception as e:
             print(f"Ocorreu um erro: {e}")
